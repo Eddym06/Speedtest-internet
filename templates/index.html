@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medir Velocidad de Internet</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+            background-color: #000;
+            color: #fff;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #28a745;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        button:hover {
+            background-color: #218838;
+            transform: scale(1.1);
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .wifi-icon {
+            font-size: 150px; /* Aumentado el tamaño del icono */
+            color: #00aaff;
+            animation: move 2s infinite;
+        }
+        @keyframes move {
+            0% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        .spinner {
+            border: 16px solid #f3f3f3;
+            border-top: 16px solid #3498db;
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            animation: spin 2s linear infinite;
+            display: none;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <h1>Medir Velocidad de Internet</h1>
+    <i class="fa fa-wifi wifi-icon"></i>
+    <br>
+    <button onclick="medirVelocidad()">Medir Velocidad</button>
+    <div class="spinner" id="spinner"></div>
+    <div class="result" id="result"></div>
+    
+    <script>
+        async function medirVelocidad() {
+            document.getElementById('spinner').style.display = 'block';
+            const response = await fetch('/medir_velocidad');
+            const data = await response.json();
+            document.getElementById('spinner').style.display = 'none';
+            document.getElementById('result').innerHTML = `
+                Velocidad de descarga: ${data.download.toFixed(2)} MBps <br>
+                Velocidad de subida: ${data.upload.toFixed(2)} MBps
+            `;
+        }
+    </script>
+</body>
+</html>
